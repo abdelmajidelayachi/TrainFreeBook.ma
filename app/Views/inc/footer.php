@@ -1,6 +1,6 @@
 
 <footer class="full-footer">
-  <div class="container p-4 text-center" >
+  <div class="container-fluid p-4 text-center" >
     <div class="row">
       <div class="col-md-12">
        <p style="color:#FFF;">
@@ -21,6 +21,14 @@ Design & Develop by Abdelmajid.elayachi.
 
 
 
+
+<script type="text/javascript">
+  // $("li a").click(function(){
+ 
+  //   $('li a').removeClass("active");
+  //   $(this).addClass("active");
+  // });
+</script>
 
 
 
