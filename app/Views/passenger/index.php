@@ -8,7 +8,7 @@
                     <h4 class="text-center p-1">Inscription</h4>
                 </div>
                 <div class="card-body bg-light">
-                    <form method="post" class="mr-1" >
+                    <form method="post" action="<?php url('passenger/register'); ?>" class="mr-1" >
                         <div class="form-group">
                             <input class="form-control" type="text" placeholder="First name" name="fist-name" require>
                         </div>

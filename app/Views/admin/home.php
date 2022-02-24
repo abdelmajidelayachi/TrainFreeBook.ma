@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,19 +17,18 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                    class="fas fa-user-secret me-2"></i>Codersbite</div>
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><img src="../assets/images/logo.svg" alt="logo"> TrainFreeBook</div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                <a href="<?php url('admin/home') ?>" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
           
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<?php url('admin/clients') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-users me-2"></i>Clients</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-paperclip me-2"></i>Reports</a>
-               
+                        <a href="<?php url('admin/profile') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold  "><i class="fas fa-users me-2"></i>Profile</a>
          
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                <a href="<?php url('admin/logout'); ?>" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                         class="fas fa-power-off me-2"></i>Logout</a>
             </div>
         </div>
@@ -56,9 +56,8 @@
                                 <i class="fas fa-user me-2"></i>El Ayachi Abdelmajid
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="<?php url('admin/profile'); ?>">Profile</a></li>
+                                <li><a class="dropdown-item" href="<?php url('admin/logout'); ?>">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -114,26 +113,40 @@
                                     <th scope="col">Arrival Time </th>
                                     <th scope="col">From</th>
                                     <th scope="col">To</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">STATUS</th>
                                     <th scope="col">Cancel Trip</th>
                                     <th scope="col">Edit Booking</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php    
+                            foreach($travels as $travel):?>
                                 <tr>
 
-                                    <th>1</th>
-                                    <th>01/03 | 9:15AM</th>
-                                    <td>02/03 | 12:15PM</td>
-                                    <td>Casablanca</td>
-                                    <td>Safi</td>
-                                    <td><button type="button" class="btn btn-success" > <ion-icon name="close-circle-outline"></ion-icon></button></td>
-                                    <td><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTrip" > <ion-icon name="pencil-outline"></ion-icon></button></td>
-                                   
+                                    <th><?= $travel['trainId'] ?></th>
+                                    <th> <?php
+                                    $month = date("m",strtotime($travel['departureTime']));
+                                    $day =  date("d",strtotime($travel['departureTime']));
                                     
+                                    echo $day.'/'.$month .' | '.  date("H",strtotime( $travel['departureTime']))."H". date("i",strtotime( $travel['departureTime']))."min"; 
+                                    ?></th>
+                                    <td> <?php
+                                    $month = date("m",strtotime($travel['arrivalTime']));
+                                    $day =  date("d",strtotime($travel['arrivalTime']));
+                                    
+                                    echo $day.'/'.$month .' | '.  date("H",strtotime( $travel['arrivalTime']))."H". date("i",strtotime( $travel['arrivalTime']))."min"; 
+                                    ?></td>
+                                    <td><?= $travel['destinationStart'] ?></td>
+                                    <td><?= $travel['destinationEnd'] ?></td>
+                                    <td><?= $travel['price'] ?>DH</td>
+                                    <td><?= $travel['status']?'<button class="btn btn-success">Active</button>':'<button class="btn btn-success">Inactive</button>';
+                                    ?></td>
+                                    <td><button type="button" class="btn btn-danger" ><a href="<?php url('admin/deleteTrip/'.$travel['travelId']) ?>" style="text-decoration:none;color:aliceblue;"> <ion-icon name="close-circle-outline"> </ion-icon></a></button></td>
+                                    <td><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#trip<?= $travel['travelId'] ?>" ><ion-icon name="pencil-outline"></ion-icon></button></td>    
                                 </tr>
-                                
-                              
+                                <?php  endforeach;?>
                             </tbody>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTrip" >Create trip</button>
                         </table>
@@ -156,77 +169,86 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form method="POST" action="<?php url('admin/createTrip'); ?>">
               <div class="mb-2">
                 <label for="train-number" class="col-form-label">Train:</label>
-                <input type="text" class="form-control" id="train-number">
+                <input type="number" name="trainId" class="form-control" id="train-number">
               </div>
               <div class="mb-2">
-                <label for="departure" class="col-form-label">departure time:</label>
-                <input type="text" class="form-control" id="departure-time">
-              </div>
+                <label for="departure"  class="col-form-label">departure time:</label>
+                <input type="datetime-local" name="departureTime" class="form-control" id="departure-time">
+              </div> 
               <div class="mb-2">
                 <label for="arrival" class="col-form-label">Arrival time:</label>
-                <input type="text" class="form-control" id="arrival-time">
+                <input type="datetime-local" name="arrivalTime" class="form-control" id="arrival-time">
               </div>
               <div class="mb-2">
                 <label for="from" class="col-form-label">From:</label>
-                <input type="text" class="form-control" id="from">
+                <input type="text" name="destinationStart" class="form-control" id="from">
               </div>
               <div class="mb-2">
                 <label for="to" class="col-form-label">To:</label>
-                <input type="text" class="form-control" id="to">
+                <input type="text" name="destinationEnd" class="form-control" id="to">
               </div>
-             
+              <div class="mb-2">
+                <label for="price" class="col-form-label">Price:</label>
+                <input type="text" name="price" class="form-control" id="price">
+              </div>           
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name='submit' class="btn btn-primary">Create </button>
+               
+              </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Create</button>
           </div>
         </div>
       </div>
     </div>
     <!-- edit trip -->
-    <div class="modal fade" id="editTrip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php foreach($travels as $travel): 
+      ?>
+    <div class="modal fade" id="trip<?= $travel['travelId'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New Trip</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit Trip</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form method="POST" action="<?php url('admin/updateTrip/'. $travel['travelId']); ?>">
               <div class="mb-2">
                 <label for="train-number"  class="col-form-label">Train:</label>
-                <input type="text" class="form-control" value="1" id="train-number">
+                <input type="number" class="form-control" name="trainId" value="<?= $travel['trainId'] ?>" id="train-number">
               </div>
               <div class="mb-2">
                 <label for="departure" class="col-form-label">departure time:</label>
-                <input type="text" class="form-control" value="01/03 | 9:15AM" id="departure-time">
+                <input type="datetime-local" class="form-control" value="<?= $travel['departureTime'];?>" name="departureTime" id="departure-time">
               </div>
               <div class="mb-2">
                 <label for="arrival" class="col-form-label">Arrival time:</label>
-                <input type="text" class="form-control" value="02/03 | 12:15AM" id="arrival-time">
+                <input type="datetime-local" class="form-control" value="<?= $travel['arrivalTime'];?>" name="arrivalTime" id="arrival-time">
               </div>
               <div class="mb-2">
                 <label for="from" class="col-form-label">From:</label>
-                <input type="text" value="Casablanca" class="form-control" id="from">
+                <input type="text" name="destinationStart" value="<?= $travel['destinationStart'] ?>" class="form-control" id="from">
               </div>
               <div class="mb-2">
                 <label for="to" class="col-form-label">To:</label>
-                <input type="text" value="Safi" class="form-control" id="to">
+                <input type="text" name="destinationEnd" value="<?= $travel['destinationEnd'] ?>" class="form-control" id="to">
+                <label for="price" class="col-form-label">Price:</label>
+                <input type="number" name="price" value="<?= $travel['price'] ?>" class="form-control" id="price">
               </div>
-             
+              <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" name='submit' class="btn btn-primary">Update</button>
+          </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Update</button>
-          </div>
+         
         </div>
       </div>
     </div>
+    <?php  endforeach;?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var el = document.getElementById("wrapper");
