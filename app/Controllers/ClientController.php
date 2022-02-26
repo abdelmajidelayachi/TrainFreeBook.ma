@@ -17,6 +17,14 @@ class ClientController extends PassengerController
         header('location:' . BURL . 'passenger/login');
     }
 }
+    public function home()
+    {
+        if (isset($_SESSION['client'])) {
+      View::load('Client/home');
+    }else{
+        header('location:' . BURL . 'passenger/login');
+    }
+}
    
     public function booking()
     {

@@ -115,7 +115,7 @@
                                     <th scope="col">To</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">STATUS</th>
-                                    <th scope="col">Cancel Trip</th>
+                                    <th scope="col">Delete Trip</th>
                                     <th scope="col">Edit Booking</th>
                                     
                                 </tr>
@@ -141,9 +141,16 @@
                                     <td><?= $travel['destinationStart'] ?></td>
                                     <td><?= $travel['destinationEnd'] ?></td>
                                     <td><?= $travel['price'] ?>DH</td>
-                                    <td><?= $travel['status']?'<button class="btn btn-success">Active</button>':'<button class="btn btn-success">Inactive</button>';
-                                    ?></td>
-                                    <td><button type="button" class="btn btn-danger" ><a href="<?php url('admin/deleteTrip/'.$travel['travelId']) ?>" style="text-decoration:none;color:aliceblue;"> <ion-icon name="close-circle-outline"> </ion-icon></a></button></td>
+                                    <td><?php
+                                    if($travel['status']): ?>
+                                      <button class="btn btn-success"><a style="text-decoration:none;color:aliceblue;" href="<?php url('admin/changeStatus/'.$travel['travelId']) ?>">Active</a></button>
+                                      <?php else: ?>
+                                        <button class="btn btn-danger" ><a style="text-decoration:none;color:aliceblue;" href="<?php url('admin/changeStatus/'.$travel['travelId']) ?>">Inactive</a></button>
+                                        <?php endif; ?>
+
+                                    </td>
+                                   
+                                    <td><button type="button" class="btn btn-danger" ><a href="<?php url('admin/deleteTrip/'.$travel['travelId']) ?>" style="text-decoration:none;color:aliceblue;"> <ion-icon name="trash-outline"></ion-icon></a></button></td>
                                     <td><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#trip<?= $travel['travelId'] ?>" ><ion-icon name="pencil-outline"></ion-icon></button></td>    
                                 </tr>
                                 <?php  endforeach;?>
@@ -152,6 +159,7 @@
                         </table>
                     </div>
                 </div>
+                            
                
                 </div>
 

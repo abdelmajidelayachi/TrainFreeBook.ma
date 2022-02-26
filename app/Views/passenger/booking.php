@@ -1,4 +1,60 @@
 <?php include(VIEWS . 'inc/header.php'); ?>
+<title>Booking</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="Header">
+    <div class="container-fluid">
+      <a class="navbar-brand px-5" href="#"><img src="/assets/images/logo.svg" alt="logo"></a>
+      <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+      
+      <div class="collapse navbar-collapse justify-content-end " id="navbarNavDropdown">
+        <ul class="navbar-nav ">
+        <?php if (isset($_SESSION['client'])) : ?>
+          <li class="nav-item px-4 py-1 ">
+            <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
+          </li>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link" href="booking">My Bookings</a>
+          </li>
+
+          <?php else: ?>
+            <li class="nav-item px-4 py-1 ">
+            <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
+          </li>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link active" href="<?= 'booking' ?>">My Bookings</a>
+          </li>
+
+          <?php endif; ?>
+          <?php if (isset($_SESSION['client'])) : ?>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link" href="<?= 'contact' ?>">contact Us</a>
+          </li>
+          <li class="nav-item px-4 ">
+            <a class="nav-link" href="<?= 'profile' ?>"><i class="fa fa-2x fa-user"></i></i></a>
+          </li>
+          <?php endif; ?>
+          <ul class="navbar-nav ">
+            <?php if (!isset($_SESSION['client'])) : ?>
+            <li class="nav-item px-4 py-1">
+              <a class="nav-link" aria-current="page" href="<?= 'login' ?>">Login</a>
+            </li>
+            <?php else: ?>
+              <li class="nav-item px-4 py-1">
+              <a class="nav-link" aria-current="page" href="<?= 'logout' ?>">Logout</a>
+            </li>
+            <?php endif; ?>
+
+          </ul>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
 <br><br><br>
 
 <main>
@@ -6,26 +62,29 @@
   <div class="row g-5">
     <div class="col-md-5 col-lg-4 order-md-last">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary p-1">Your cart</span>
+        <span class="text-primary p-1">Book payment</span>
         <span class="badge bg-primary rounded-pill">2</span>
       </h4>
       <ul class="list-group mb-3">
+        <?php if(isset($travel)&& !empty($travel) ): 
+          //var_dump($travel);
+          ?>
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
-            <h6 class="my-0 pb-2">From : <span>Casablanca</span> </h6>
-            <h6 class="my-0 py-2">TO : <span>Safi</span> </h6>
+            <h6 class="my-0 pb-2">From : <span><?= $travel[
+              'destinationStart'
+            ] ;?></span> </h6>
+            <h6 class="my-0 py-2">TO : <span><?= $travel[
+              'destinationEnd'
+            ] ;?></span> </h6>
 
           </div>
-          <span class="text-muted">$80</span>
+          <span class="text-muted"><?= $travel[
+              'price'
+            ] ;?></span>
         </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div class="p-2">
-            <h6 class="my-0 pb-2">From : <span>Casablanca</span> </h6>
-            <h6 class="my-0 py-2">TO : <span>Safi</span> </h6>
-
-          </div>
-          <span class="text-muted">$80</span>
-        </li>
+        <?php endif; ?>
+        
 
         <li class="list-group-item d-flex justify-content-between">
           <span>Total (DH)</span>

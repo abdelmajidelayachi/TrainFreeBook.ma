@@ -1,4 +1,61 @@
 <?php include(VIEWS . 'inc/header.php'); ?>
+
+<title>my Bookings</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="Header">
+    <div class="container-fluid">
+      <a class="navbar-brand px-5" href="#"><img src="/assets/images/logo.svg" alt="logo"></a>
+      <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+      
+      <div class="collapse navbar-collapse justify-content-end " id="navbarNavDropdown">
+        <ul class="navbar-nav ">
+        <?php if (isset($_SESSION['client'])) : ?>
+          <li class="nav-item px-4 py-1 ">
+            <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
+          </li>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link active" href="booking">My Bookings</a>
+          </li>
+
+          <?php else: ?>
+            <li class="nav-item px-4 py-1 ">
+            <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
+          </li>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link active" href="<?= 'booking' ?>">My Bookings</a>
+          </li>
+
+          <?php endif; ?>
+          <?php if (isset($_SESSION['client'])) : ?>
+          <li class="nav-item px-4 py-1">
+            <a class="nav-link " href="<?= 'contact' ?>">contact Us</a>
+          </li>
+          <li class="nav-item px-4 ">
+            <a class="nav-link" href="<?= 'profile' ?>"><i class="fa fa-2x fa-user"></i></i></a>
+          </li>
+          <?php endif; ?>
+          <ul class="navbar-nav ">
+            <?php if (!isset($_SESSION['client'])) : ?>
+            <li class="nav-item px-4 py-1">
+              <a class="nav-link" aria-current="page" href="<?= 'login' ?>">Login</a>
+            </li>
+            <?php else: ?>
+              <li class="nav-item px-4 py-1">
+              <a class="nav-link" style="color:red;" aria-current="page" href="<?= 'logout' ?>">Logout</a>
+            </li>
+            <?php endif; ?>
+
+          </ul>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
 <br><br><br>
 
 <main>

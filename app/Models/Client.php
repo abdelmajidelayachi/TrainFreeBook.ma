@@ -48,7 +48,7 @@ class Client extends DB
 
     }else{
       $_SESSION['client']= $row["fullName"]; 
-      echo  $_SESSION['client'];
+    
       return true;
         
     }

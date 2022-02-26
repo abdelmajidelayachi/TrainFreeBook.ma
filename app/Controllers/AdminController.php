@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 class AdminController
 {
@@ -18,7 +18,7 @@ class AdminController
     if (isset($_SESSION['AdminName'])) {
       $db = new Travel();
       $data['travels'] = $db->getAllTravels();
-
+     
       View::load('Admin/home', $data);
     }else{
       header('location:' . BURL . 'admin/login');
@@ -122,7 +122,30 @@ class AdminController
         
     }
   }
+    public function changeStatus($id)
+    {
+     
+        if (isset($_SESSION['AdminName'])) {
+          
+          $st=new Travel();
+          $selectRow=$st->getStatus($id);
+          echo $selectRow['status'];
+          if($selectRow['status']==1){
+            $status=0;
+          }else{
+            $status=1;
+          }
+           $data=array("status" => $status);
+          $db = new Travel();
+          $db->changeStatus($data,$id);
+          header('location:' . BURL . 'admin/home');
+       
+      }else{
+        header('location:' . BURL . 'admin/login');
+      }
+    }
 
+    
 
   public function logout()
   {

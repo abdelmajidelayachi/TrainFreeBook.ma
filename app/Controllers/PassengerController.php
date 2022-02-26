@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 class PassengerController
 {
     
@@ -9,31 +9,91 @@ class PassengerController
       View::load('Passenger/login');
     }else
     {
-      header('location:' . BURL . '');
+      header('location:' . BURL . 'client/home');
   }
   }
  
     public function index()
     {
       if (!isset($_SESSION['client'])) {
-      View::load('Passenger/index');
+      View::load('Passenger/index');  
       }else
       {
-        header('location:' . BURL . '');
+        header('location:' . BURL . 'Passenger/home');
     }
       
     }
- 
-
+    
     public function booking()
     {
       if (!isset($_SESSION['client'])) {
-        View::load('Passenger/booking');
-
+      View::load('Passenger/booking');  
       }else
       {
-        header('location:' . BURL . 'client/booking');
+        header('location:' . BURL . 'Passenger/home');
     }
+      
+    }
+    
+    
+
+    public function bookingT($id)
+    {
+      if (!isset($_SESSION['client'])) {
+        $trip= new Travel();
+        
+        $data['travel']=$trip->getTravel($id);
+        //var_dump($data);
+        View::load('Passenger/booking',$data);
+      }else
+      {
+        header('location:' . BURL . 'client/home  ');
+    }
+  }
+    public function searchTrip()
+    {
+     
+      if (!isset($_SESSION['client'])) {
+        if (isset($_POST['submit'])) {
+          $departure = trim($_POST['departure']);
+          $arrival = trim($_POST['arrival']);
+          $date = trim($_POST['date']);
+          
+          $data = array("departure" => $departure,  "arrival" => $arrival, "dates" => $date);
+          $db = new Travel();
+          if(count($db->searchTravel($data)))
+          {
+             $data['travels']=$db->searchTravel($data);
+          // var_dump($data);
+         
+          View::load('Passenger/home', $data);
+          }else{
+            $data['travels']=$db->searchTravel($data);
+          // var_dump($data);
+          View::load('Passenger/home', $data);
+          }
+         
+      }else
+      {
+   
+        header('location:' . BURL . 'client/home');
+    }
+
+  }
+}
+    public function home()
+    {
+      if (!isset($_SESSION['client'])) {
+        
+        View::load('Passenger/home');
+      }else{
+        header('location:' . BURL . 'client/home');
+      }
+    }
+    public function goHome()
+    {
+      
+      header('location:' . BURL . 'Passenger/home');
 
     }
     public function register()
@@ -64,6 +124,8 @@ class PassengerController
         header('location:' . BURL . '');
       }
     }
+
+   
 
     // public function update($id){
     //   if(isset($_POST['submit']))
@@ -113,7 +175,7 @@ class PassengerController
           if ($init->loginClient($data)) {
 
 
-            header('location:' . BURL . '');
+            header('location:' . BURL . 'client/home');
           } else {
             echo '<script>alert("Invalid inputs");</script>';
             header('location:' . BURL . 'passenger/login');
@@ -122,7 +184,7 @@ class PassengerController
       }  
     }else
     {
-      header('location:' . BURL . '');
+      header('location:' . BURL . 'client/home');
   }
   }
 

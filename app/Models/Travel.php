@@ -18,13 +18,26 @@ class Travel extends DB
     
   public function searchTravel($dat)
   {
-      $tmp=DB::connect()->prepare('SELECT * FROM $this->table WHERE destinationStart=:destinationStart AND destinationEnd=:destinationEnd');
-      $tmp->bindParam(':destinationStart',$dat['destinationStart']);
-      $tmp->bindParam(':destinationEnd',$dat['destinationEnd']);
-     
+    
+      $tmp=DB::connect()->prepare('SELECT * FROM `'. $this->table.'` WHERE destinationStart=:destinationStart AND destinationEnd=:destinationEnd AND DATE(departureTime) = :dates');
       
+      $tmp->bindParam(':destinationStart',$dat['departure']);
+      $tmp->bindParam(':destinationEnd',$dat['arrival']);
+      $tmp->bindParam(':dates',$dat['dates']);
+
       $tmp->execute();
       return $tmp->fetchAll();
+    }
+  public function getStatus($id)
+  {
+    
+      $tmp=DB::connect()->prepare('SELECT * FROM `'. $this->table.'` WHERE travelId=:travelId');
+      
+      $tmp->bindParam(':travelId',$id);
+     
+
+      $tmp->execute();
+      return $tmp->fetch();
     }
 
   
@@ -52,12 +65,28 @@ class Travel extends DB
     $stmt->execute();
 
   }
+  public function changeStatus($data,$id){
+
+   $stmt=DB::Connect()->prepare('UPDATE `'.$this->table.'` SET status=:status WHERE travelId='.$id.'');
+   $stmt->bindParam(':status',$data['status']);
+    $stmt->execute();
+
+  }
 
   public function deleteTravel($id)
   {
       $tmp=DB::connect()->prepare('DELETE  FROM '.$this->table.' WHERE travelId=:travelId');
       $tmp->bindParam(':travelId',$id);
       $tmp->execute();
+    }
+
+  public function getTravel($id)
+  {
+      $tmp=DB::connect()->prepare('SELECT*  FROM '.$this->table.' WHERE travelId=:travelId');
+      $tmp->bindParam(':travelId',$id);
+      $tmp->execute();
+      return $tmp->fetch();
+
     }
 
 
