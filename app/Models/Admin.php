@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 class Admin extends DB
 {
   private $table = "admins";

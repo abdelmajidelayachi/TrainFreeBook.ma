@@ -11,6 +11,7 @@ class DB
         $database = new PDO('mysql:dbname=trainfreebook;host=localhost','root','');
         $database->exec("set names utf8");
         $database->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
+       
         return $database;
     }
 }

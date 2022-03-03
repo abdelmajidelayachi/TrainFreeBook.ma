@@ -62,8 +62,27 @@
   <div class="row g-5">
     <div class="col-md-5 col-lg-4 order-md-last">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary p-1">Book payment</span>
-        <span class="badge bg-primary rounded-pill">2</span>
+        <span class="text-primary font-weight-normal p-1">Number of places</span>
+        <span class="badge bg-light rounded-pill">
+          <form action="<?php 
+          
+          
+          url('passenger/bookingT/'.
+       
+         $travel['travelId']
+        
+        
+        
+        
+        );?>" method="post">
+            <input  type="number" style="background:white;" class="btn" name="ticket-number" id="ticket" value="<?=$travel["places"];?>"  min="1" max="10">
+            <input type="submit" class="btn btn-success" name="submit" value="choose">
+
+          </form>
+
+
+
+        </span>
       </h4>
       <ul class="list-group mb-3">
         <?php if(isset($travel)&& !empty($travel) ): 
@@ -81,14 +100,23 @@
           </div>
           <span class="text-muted"><?= $travel[
               'price'
-            ] ;?></span>
+            ] ;?> <strong>DH</strong></span>
         </li>
-        <?php endif; ?>
+        <?php endif;
+    //    echo "<pre>";
+    //    print_r($travel);
+    // echo "</pre>";
+          
+    //       echo $travel["places"];
+        
+        ?>
         
 
         <li class="list-group-item d-flex justify-content-between">
           <span>Total (DH)</span>
-          <strong>$160</strong>
+          <strong><?= $travel[
+              'price'
+            ]* $travel["places"]; ?>DH </strong>
         </li>
       </ul>
 
@@ -96,7 +124,7 @@
     </div>
     <div class="col-md-7 col-lg-8">
       <h4 class="mb-3 p-1">Email Address </h4>
-      <form class="needs-validation" novalidate>
+      <form method="POST" action="<?php url('passenger/ticket') ?>">
         <div class="row g-3">
 
 
@@ -115,11 +143,38 @@
             </div>
           </div>
 
+            <input type="hidden" name="destinationStart" value="<?= $travel[
+              'destinationStart'
+            ] ;?>">
+            <input type="hidden" name="destinationEnd" value="<?= $travel[
+              'destinationEnd'
+            ] ;?>">
+            <input type="hidden" name="departureTime" value="<?= $travel[
+              'departureTime'
+            ] ;?>">
+            <input type="hidden" name="arrivalTime" value="<?= $travel[
+              'arrivalTime'
+            ] ;?>">
+            <input type="hidden" name="price" value="<?= $travel[
+              'price'
+            ] ;?>">
+            <input type="hidden" name="status" value="<?= $travel[
+              'status'
+            ] ;?>">
+            <input type="hidden" name="trainId" value="<?= $travel[
+              'trainId'
+            ] ;?>">
+            <input type="hidden" name="places" value="<?= $travel[
+              'places'
+            ] ;?>">
+            <input type="hidden" name="travelId" value="<?= $travel[
+              'travelId'
+            ] ;?>">
 
 
 
 
-          <hr class="my-4">
+          <!-- <hr class="my-4">
 
           <h4 class="mb-3 pb-1">Payment</h4>
 
@@ -131,7 +186,7 @@
             <!-- <div class="form-check">
               <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="debit">Debit card</label>
-            </div> -->
+            </div> 
             <div class="form-check">
               <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="paypal">PayPal</label>
@@ -171,14 +226,14 @@
                 Security code required
               </div>
             </div>
-          </div>
+          </div> -->
 
           <hr class="my-4">
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit" name="submit">Download tickets</button>
       </form>
     </div>
   </div>
   </div>
 </main>
-<br><br><br>
+<br><br><br><br><br><br>
 <?php include(VIEWS . 'inc/footer.php'); ?>
