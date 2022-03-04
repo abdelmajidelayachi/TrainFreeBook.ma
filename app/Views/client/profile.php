@@ -19,7 +19,7 @@
             <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
           </li>
           <li class="nav-item px-4 py-1">
-            <a class="nav-link " href="booking">My Bookings</a>
+            <a class="nav-link " href="lastBooking">My Bookings</a>
           </li>
 
           <?php else: ?>

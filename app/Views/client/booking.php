@@ -19,7 +19,7 @@
             <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
           </li>
           <li class="nav-item px-4 py-1">
-            <a class="nav-link active" href="booking">My Bookings</a>
+            <a class="nav-link active" href="lastBooking">My Bookings</a>
           </li>
 
           <?php else: ?>
@@ -48,7 +48,8 @@
               <li class="nav-item px-4 py-1">
               <a class="nav-link" style="color:red;" aria-current="page" href="<?= 'logout' ?>">Logout</a>
             </li>
-            <?php endif; ?>
+            <?php endif; 
+            ?>
 
           </ul>
         </ul>
@@ -56,45 +57,79 @@
 
     </div>
   </nav>
-<br><br><br>
+<br><br><br><br><br>
 
 <main>
 <div class="container">
   <div class="row g-5">
     <div class="col-md-5 col-lg-4 order-md-last">
+    
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary p-1">Your cart</span>
-        <span class="badge bg-primary rounded-pill">2</span>
+        <span class="text-primary font-weight-normal p-1">Number of places</span>
+        <span class="badge bg-light rounded-pill">
+          <form action="<?php 
+          
+          
+          url('client/bookingT/'.
+       
+         $travel['travelId']
+        
+        
+        
+        
+        );?>" method="post">
+            <input  type="number" style="background:white;" class="btn" name="ticket-number" id="ticket" value="<?=$travel["places"];?>"  min="1" max="10">
+            <input type="submit" class="btn btn-success" name="submit" value="choose">
+
+          </form>
+
+
+
+        </span>
       </h4>
       <ul class="list-group mb-3">
+        <?php if(isset($travel)&& !empty($travel) ): 
+          //var_dump($travel);
+          ?>
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
-            <h6 class="my-0 pb-2">From : <span>Casablanca</span> </h6>
-            <h6 class="my-0 py-2">TO : <span>Safi</span> </h6>
+            <h6 class="my-0 pb-2">From : <span><?= $travel[
+              'destinationStart'
+            ] ;?></span> </h6>
+            <h6 class="my-0 py-2">TO : <span><?= $travel[
+              'destinationEnd'
+            ] ;?></span> </h6>
 
           </div>
-          <span class="text-muted">$80</span>
+          <span class="text-muted"><?= $travel[
+              'price'
+            ] ;?> <strong>DH</strong></span>
         </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div class="p-2">
-            <h6 class="my-0 pb-2">From : <span>Casablanca</span> </h6>
-            <h6 class="my-0 py-2">TO : <span>Safi</span> </h6>
-
-          </div>
-          <span class="text-muted">$80</span>
-        </li>
+        <?php endif;
+    //    echo "<pre>";
+    //    print_r($travel);
+    // echo "</pre>";
+          
+    //       echo $travel["places"];
+        
+        ?>
+        
 
         <li class="list-group-item d-flex justify-content-between">
-          <span>Total (USD)</span>
-          <strong>$160</strong>
+          <span>Total (DH)</span>
+          <strong><?= $travel[
+              'price'
+            ]* $travel["places"]; ?>DH </strong>
         </li>
-      </ul>
+       
+            </ul>
 
 
     </div>
+    
     <div class="col-md-7 col-lg-8">
       <h4 class="mb-3 p-1">Email Address </h4>
-      <form class="needs-validation" novalidate>
+      <form method="POST" action="<?php url('client/ticket') ?>">
         <div class="row g-3">
 
 
@@ -107,19 +142,42 @@
 
           <div class="col-12">
             <label for="email" class="form-label">Email </label>
-            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" value="<?= $_SESSION['client'] ;?>" disabled>
             <div class="invalid-feedback">
               Please enter a valid email address for shipping updates.
             </div>
           </div>
 
+            <input type="hidden" name="destinationStart" value="<?= $travel[
+              'destinationStart'
+            ] ;?>">
+            <input type="hidden" name="destinationEnd" value="<?= $travel[
+              'destinationEnd'
+            ] ;?>">
+            <input type="hidden" name="departureTime" value="<?= $travel[
+              'departureTime'
+            ] ;?>">
+            <input type="hidden" name="arrivalTime" value="<?= $travel[
+              'arrivalTime'
+            ] ;?>">
+            <input type="hidden" name="price" value="<?= $travel[
+              'price'
+            ] ;?>">
+            <input type="hidden" name="status" value="<?= $travel[
+              'status'
+            ] ;?>">
+            <input type="hidden" name="trainId" value="<?= $travel[
+              'trainId'
+            ] ;?>">
+            <input type="hidden" name="places" value="<?= $travel[
+              'places'
+            ] ;?>">
+            <input type="hidden" name="travelId" value="<?= $travel[
+              'travelId'
+            ] ;?>">
+            <hr class="my-4">
 
-
-
-
-          <hr class="my-4">
-
-          <h4 class="mb-3 pb-1">Payment</h4>
+          <!-- <h4 class="mb-3 pb-1">Payment</h4>
 
           <div class="my-3">
             <div class="form-check">
@@ -129,7 +187,7 @@
             <!-- <div class="form-check">
               <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="debit">Debit card</label>
-            </div> -->
+            </div> 
             <div class="form-check">
               <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="paypal">PayPal</label>
@@ -171,12 +229,12 @@
             </div>
           </div>
 
-          <hr class="my-4">
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <hr class="my-4"> -->
+          <button class="w-100 btn btn-primary btn-lg" name="submit" type="submit">Download tickets</button>
       </form>
     </div>
   </div>
   </div>
 </main>
-<br><br><br>
+<br><br><br><br><br><br><br><br><br>
 <?php include(VIEWS . 'inc/footer.php'); ?>

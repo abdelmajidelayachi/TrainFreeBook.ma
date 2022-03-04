@@ -19,7 +19,7 @@
             <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
           </li>
           <li class="nav-item px-4 py-1">
-            <a class="nav-link" href="booking">My Bookings</a>
+            <a class="nav-link" href="lastBooking">My Bookings</a>
           </li>
 
           <?php else: ?>
@@ -76,20 +76,29 @@
 <div class="container">
   <div class="row">
     <div class="col-md-7 col-lg-8">
+      <?php if(isset($success)): ?>
+    <div class="alert alert-success" role="alert">
+  <h4 class="alert-heading p-1">Message Sent!</h4>
+  <p>Thank you for your message.</p>
+
+</div>
+<?php endif; ?>
+      <form action="<?php url('client/report') ?>" method="post">
       <div class="col-sm-12 mb-3">
         <label for="lastName" class="form-label">Full name </label>
-        <input type="text" class="form-control" id="lastName" placeholder="Abdelmajid El Ayachi" value="" require>
+        <input type="text" name="name" class="form-control" id="lastName" placeholder="Abdelmajid El Ayachi" value="" required>
 
       </div>
       <div class="my-3 ">
         <label for="exampleFormControlInput1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        <input type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="name@example.com" required>
       </div>
       <div class="my-3">
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control"  name="message" id="exampleFormControlTextarea1" rows="3" required></textarea >
       </div>
-      <button type="button" class="btn btn-primary btn-lg px-3 mb-3">Send Message</button>
+      <button type="submit" name="submit" class="btn btn-primary btn-lg px-3 mb-3">Send Message</button>
+      </form>
     </div>
   </div>
 </div>

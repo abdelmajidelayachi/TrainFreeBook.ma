@@ -37,6 +37,10 @@ class PassengerController
       $data['tickets'] = $_SESSION['guest'];
       // var_dump($data);
       View::load('Passenger/tickets',$data);
+    }else{
+      $data['tickets'] = $_SESSION['guest'];
+      // var_dump($data);
+      View::load('client/tickets',$data);
     }
     
   }
@@ -44,6 +48,7 @@ class PassengerController
 
   public function ticket()
   {
+
     if (!isset($_SESSION['client'])) {
       if (isset($_POST['submit'])) {
 
@@ -107,10 +112,66 @@ class PassengerController
 
       }
     } else {
-      header('location:' . BURL . 'Passenger/home');
+      
+      if (isset($_POST['submit'])) {
+        
+        $destinationStart = $_POST['destinationStart'];
+        $destinationEnd = $_POST['destinationEnd'];
+        $departureTime = $_POST['departureTime'];
+        $arrivalTime = $_POST['arrivalTime'];
+
+        $price = $_POST['price'];
+        $status = $_POST['status'];
+        $trainId = $_POST['trainId'];
+        $travelId = $_POST['travelId'];
+        $places = $_POST['places'];
+        $valid = 1;
+        $email = $_SESSION['client'];
+        for ($i = 0; $i < $places; $i++) {
+          $ticketSeat = new Reservation();
+
+          if (count($ticketSeat->recent($travelId)) > 0) {
+            // echo($this->recent($data)["MAX(seat)"]);
+            $seat = $ticketSeat->recent($travelId)["MAX(seat)"];
+          } else {
+            $seat = 1;
+          }
+          $seat = $seat + 1;
+          $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
+
+          $data= array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "email" => $email);
+          echo '<pre>';
+          print_r($data); 
+          echo '</pre>';
+
+
+          $res = new Reservation();
+
+          
+           $booked= $res->book($data);
+          
+          if($booked){
+           
+          }else{
+
+            
+          $resId = new Reservation();
+          $IdRes= $resId->getLastId()["MAX(reservationId)"];
+          //  var_dump( $IdRes);
+          $data['reservationId']= $IdRes;
+           
+           $ticket= New Ticket();
+           $ticket->insertTicket($data);
+          }
+          $tData[$i]=$data;
+
+        }
+       
+         $_SESSION['guest']=$tData;
+        header('location:' . BURL . 'client/tickets');
     }
   }
-
+  }
 
 
   public function bookingT($id)
@@ -143,7 +204,30 @@ class PassengerController
         }
       }
     } else {
-      header('location:' . BURL . 'client/home  ');
+      if (isset($_POST['submit'])) {
+        $places = trim($_POST['ticket-number']);
+        if ($places > 0 && $places <= 10) {
+          $trip = new Travel();
+          $data['travel'] = $trip->getTravel($id);
+          $data['travel'] += ["places" => $places];
+
+
+          // var_dump($data);
+
+
+          View::load('client/booking', $data);
+        }
+      } else {
+        $places = 1;
+        if ($places > 0 && $places <= 10) {
+          $trip = new Travel();
+          $data['travel'] = $trip->getTravel($id);
+          $data['travel'] += ['places' => $places];
+          // var_dump($data);
+
+          View::load('client/booking', $data);
+        }
+      }
     }
   }
 
@@ -189,6 +273,28 @@ class PassengerController
           $data['travels'] = $db->searchTravel($data);
           // var_dump($data);
           View::load('Passenger/home', $data);
+        }
+      } else {
+
+        header('location:' . BURL . 'client/home');
+      }
+    }else{
+      if (isset($_POST['submit'])) {
+        $departure = trim($_POST['departure']);
+        $arrival = trim($_POST['arrival']);
+        $date = trim($_POST['date']);
+
+        $data = array("departure" => $departure,  "arrival" => $arrival, "dates" => $date);
+        $db = new Travel();
+        if (count($db->searchTravel($data))) {
+          $data['travels'] = $db->searchTravel($data);
+          // var_dump($data);
+
+          View::load('client/home', $data);
+        } else {
+          $data['travels'] = $db->searchTravel($data);
+          // var_dump($data);
+          View::load('client/home', $data);
         }
       } else {
 
@@ -285,7 +391,7 @@ class PassengerController
         } else {
           $init = new Client();
           if ($init->loginClient($data)) {
-
+            $_SESSION['client']=$data['email'];
 
             header('location:' . BURL . 'client/home');
           } else {

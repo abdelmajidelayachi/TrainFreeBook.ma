@@ -35,6 +35,17 @@ class AdminController
       header('location:' . BURL . 'admin/login');
     }
   }
+  public function reports()
+  {
+    if (isset($_SESSION['AdminName'])) {
+      $db = new Report();
+      $data['reports'] = $db->getAllReports();
+
+      View::load('Admin/reports', $data);
+    }else{
+      header('location:' . BURL . 'admin/login');
+    }
+  }
   public  function createTrip()
   {
     if (isset($_SESSION['AdminName'])) {

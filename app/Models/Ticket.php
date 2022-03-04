@@ -24,6 +24,5 @@ class Ticket extends DB
   }
   
 
-
  
 }
