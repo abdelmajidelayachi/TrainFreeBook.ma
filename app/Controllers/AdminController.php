@@ -3,7 +3,7 @@
 
 class AdminController
 {
-
+  
   public function login()
   {
     if (!isset($_SESSION['AdminName'])) {
@@ -18,7 +18,10 @@ class AdminController
     if (isset($_SESSION['AdminName'])) {
       $db = new Travel();
       $data['travels'] = $db->getAllTravels();
-     
+      $tr = New Train();
+      $tr->getAllTrains();
+      $res=New Reservation();
+      $res->getAllTravellers();
       View::load('Admin/home', $data);
     }else{
       header('location:' . BURL . 'admin/login');
@@ -183,10 +186,43 @@ class AdminController
   public function profile()
   {
       if (isset($_SESSION['AdminName'])) {
-         
-        View::load('Admin/profile');
+        $ad= New Admin();
+        $data['infos']= $ad->getAdInfo($_SESSION['email']);
+        View::load('Admin/profile',$data);
         }else{
           header('location:' . BURL . 'admin/login');
         }
+  }
+  public function editProfile(){
+    if (isset($_SESSION['AdminName'])) {
+      $fullname = trim($_POST['name']);
+      $email = trim($_POST['email']);
+      $nPass = trim($_POST['n-pass']);
+      $cPass = trim($_POST['c-pass']);
+      if($nPass !=$cPass)
+      {
+        View::load('Admin/profile',['success'=>'Your New password is not match the confirm password']);
+        exit;
+      }
+      if(empty($nPass))
+      {
+        $nPass= $_SESSION['password'];
+      }
+      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass);
+      //   var_dump($data);
+      //  exit;
+      $ad= New Admin();
+        $data['infos']= $ad->getAdInfoEdit($_SESSION['adminId'],$data);
+        //  echo '<pre>';
+        //  print_r($ad->getAdInfo($_SESSION['email']));
+        //  echo'</pre>';
+        $_SESSION['AdminName']=$fullname;  
+        $_SESSION['email']= $email;  
+        $_SESSION['password']= $nPass;  
+        
+        header('location:' . BURL . 'admin/profile');
+      }else{
+        header('location:' . BURL . 'admin/login');
+      }
   }
 }

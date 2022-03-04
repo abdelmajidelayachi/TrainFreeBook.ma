@@ -13,7 +13,9 @@ class Travel extends DB
 
       $tmp=DB::connect()->prepare('SELECT * FROM travels');
       $tmp->execute();
-      return $tmp->fetchAll();
+      $trips= $tmp->fetchAll();
+      $_SESSION['trips']=count($trips);
+      return $trips;
     }
     
   public function searchTravel($dat)

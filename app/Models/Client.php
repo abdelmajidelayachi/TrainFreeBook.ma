@@ -23,6 +23,15 @@ class Client extends DB
         $tmp->bindParam(':clientId',$id);
         $tmp->execute();
       }
+    public function getClient($data)
+    {
+        $tmp=DB::connect()->prepare('SELECT*FROM '.$this->table.' WHERE email = :email ');
+        $tmp->bindParam(':email', $data['email']);
+        $tmp->execute();
+        $row=$tmp->fetch();
+        return $row;
+
+      }
     public function insertClient($data)
     {
       $stmt=DB::Connect()->prepare('INSERT INTO '.$this->table.'(fullName,email,password) VALUES(:fullName,:email,:password)');
@@ -54,6 +63,27 @@ class Client extends DB
     }
     
 }
+public function getClInfo($email)
+{
+  $stmp=DB::connect()->prepare('SELECT * FROM `'. $this->table.'` WHERE email = :email');
+  $stmp->bindParam(':email',$email);
+  $stmp->execute();
+
+  return $stmp->fetch();
+}
+public function getClInfoEdit($id,$data){
+
+  $stmt=DB::Connect()->prepare('UPDATE `'.$this->table.'` SET fullName=:fullName,email=:email ,password=:password WHERE clientId='.$id);
+
+  
+  $stmt->bindParam(':fullName',$data['fullName']);
+  $stmt->bindParam(':email',$data['email']);
+  $stmt->bindParam(':password',$data['password']);
+
+  $stmt->execute();
+
+}
+
 
 
 }

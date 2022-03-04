@@ -80,7 +80,15 @@ class Reservation extends DB
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
-
+  public function getAllTravellers()
+  {
+    
+    $tmp=DB::connect()->prepare('SELECT * FROM '.$this->table);
+    $tmp->execute();
+    $travellers= $tmp->fetchAll();
+    $_SESSION['travellers']=count($travellers);
+    return $travellers;
+  }
 
 
 

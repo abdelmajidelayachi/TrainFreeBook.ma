@@ -21,7 +21,7 @@
         <a href="<?php url('admin/home') ?>" class="list-group-item list-group-item-action bg-transparent second-text "><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
 
         <a href="<?php url('admin/clients') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i class="fas fa-users me-2"></i>Clients</a>
-        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Reports</a>
+        <a href="<?php url('admin/reports') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Reports</a>
         <a href="<?php url('admin/profile') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active "><i class="fas fa-users me-2"></i>Profile</a>
 
 
@@ -46,7 +46,7 @@
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user me-2"></i>El Ayachi Abdelmajid
+                <i class="fas fa-user me-2"></i><?= $_SESSION['AdminName']; ?>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -62,33 +62,43 @@
         <div class="container rounded bg-white mt-3">
           <div class="row">
             <div class="col-md-4 border-right">
-              <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="../assets/images/profile.jpg" width="90"><span class="font-weight-bold">EL AYACHI ABDELMAJID</span><span class="text-black-50">elayachiabdel2001@gmail.com</span><span>Morocco</span></div>
+              <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="../assets/images/profile.jpg" width="90"><span class="font-weight-bold"><?= $_SESSION['AdminName']; ?></span><span class="text-black-50"><?= $_SESSION['email']; ?></span><span>Morocco</span></div>
             </div>
             <div class="col-md-8">
               <div class="p-3 py-5">
-                <div class="d-flex justify-content-center align-items-center mb-1">
+                <form action="<?php url('admin/editProfile'); ?>" method="post">
+                  <div class="d-flex justify-content-center align-items-center mb-1">
 
-                  <h2 class="text-right p-1"> Profile</h2>
-                </div>
-                <div class="row mt-2  g-3">
-                  <div class="col-md-6"><input type="text" class="form-control" placeholder="first name" value="El Ayachi"></div>
-                  <div class="col-md-6"><input type="text" class="form-control" value="Abdelmajid" placeholder="Abdelmajid"></div>
-                </div>
+                    <h2 class="text-right p-1"> Profile</h2>
+                  </div>
+                  <div class="row mt-2  g-3">
+                    <div class="col-md-6"><input type="text" name="name" class="form-control" placeholder="first name" value="<?= $_SESSION['AdminName']; ?>" required></div>
+                    <div class="col-md-6"><input type="email" name="email" class="form-control" placeholder="Email" value="<?= $_SESSION['email']; ?>" required></div>
+                  </div>
 
 
-                <div class="row mt-3 g-3">
-                  <div class="col-md-6"><input type="text" class="form-control" placeholder="Bank Name" value="Bank of Morocco"></div>
-                  <div class="col-md-6"><input type="text" class="form-control" value="5043958409584095" placeholder="Account Number"></div>
-                </div>
-                <div class="row mt-3  g-3">
-                  <div class="col-md-6"><input type="text" class="form-control" placeholder="Email" value="elayachiabdel2001@gmail.com"></div>
-                  <div class="col-md-6"><input type="file" class="form-control"></div>
-                </div>
-                <div class="mt-5 text-right"><button class="btn btn-primary profile-button" type="button">Edit Profile</button></div>
+                  <div class="row mt-3 g-3">
+                    <div class="col-md-6"><input type="password" class="form-control" placeholder="New password" name="n-pass" value="" ></div>
+                    <div class="col-md-6"><input type="password" name="c-pass" class="form-control" value="" placeholder="confirm password" ></div>
+                    <?php if (isset($success)) : ?>
+                      <div class="alert alert-danger" role="alert">
+                        <h6 class="alert-heading p-1"><?= $success;?></h6>
+
+
+                      </div>
+                    <?php endif; ?>
+                  </div>
+                  <div class="row mt-3  g-3">
+
+                    <div class="col-md-6"><input type="file" class="form-control"></div>
+                  </div>
+                  <div class="mt-5 text-right"><button class="btn btn-primary profile-button" name="submit" type="submit">Edit Profile</button></div>
+                </form>
               </div>
+
             </div>
           </div>
-        </div>  
+        </div>
       </div>
     </div>
   </div>

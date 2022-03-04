@@ -20,8 +20,8 @@
       <div class="list-group list-group-flush my-3">
         <a href="<?php url('admin/home') ?>" class="list-group-item list-group-item-action bg-transparent second-text "><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
 
-        <a href="<?php url('admin/reports') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i class="fas fa-users me-2"></i>reports</a>
-        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Reports</a>
+        <a href="<?php url('admin/clients') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i class="fas fa-users me-2"></i>Clients</a>
+        <a href="<?php url('admin/reports') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i class="fas fa-paperclip me-2"></i>Reports</a>
         <a href="<?php url('admin/profile') ?>" class="list-group-item list-group-item-action bg-transparent second-text fw-bold  "><i class="fas fa-users me-2"></i>Profile</a>
 
         <a href="<?php url('admin/logout'); ?>" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
@@ -45,7 +45,7 @@
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user me-2"></i>El Ayachi Abdelmajid
+                <i class="fas fa-user me-2"></i><?= $_SESSION['AdminName']; ?>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="<?php url('admin/profile'); ?>">Profile</a></li>
@@ -61,7 +61,7 @@
           <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
               <div class="col-md-4">
-                <h3 class="fs-2">720</h3>
+                <h3 class="fs-2"> <?= $_SESSION['trips'];?></h3>
                 <p class="fs-5">Trips</p>
               </div>
               <i class="fas fa-train fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -71,7 +71,7 @@
           <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
               <div>
-                <h3 class="fs-2">4920</h3>
+                <h3 class="fs-2"> <?= $_SESSION['travellers'];?></h3>
                 <p class="fs-5">Travelers</p>
               </div>
               <i class="fas fa-users fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -81,7 +81,7 @@
           <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
               <div>
-                <h3 class="fs-2">2</h3>
+                <h3 class="fs-2"> <?= $_SESSION['trains'];?></h3>
                 <p class="fs-5">Train</p>
               </div>
               <i class="fas fa-train fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -150,6 +150,7 @@
         <h5><?= $report['fullName'] ?></h5>
         <h6><?= $report['email'] ?></h6>
         <p>
+          <br>
         <?= $report['message'] ?>
         </p>
       </div>

@@ -391,7 +391,12 @@ class PassengerController
         } else {
           $init = new Client();
           if ($init->loginClient($data)) {
-            $_SESSION['client']=$data['email'];
+            $dt=$init->getClient($data);
+
+            $_SESSION['client']=$dt['email'];
+            $_SESSION['clientName']=$dt['fullName'];
+            $_SESSION['clientId']=$dt['clientId'];
+            $_SESSION['password']=$dt['password'];
 
             header('location:' . BURL . 'client/home');
           } else {

@@ -99,5 +99,38 @@ class ClientController extends PassengerController
         header('location:' . BURL . 'Passenger/login');
     }
 }
+public function editProfile(){
+    if (isset($_SESSION['client'])) {
+        
+      $fullname = trim($_POST['name']);
+      $email = trim($_POST['email']);
+      $nPass = trim($_POST['n-pass']);
+      $cPass = trim($_POST['c-pass']);
+      if($nPass !=$cPass)
+      {
+        View::load('client/profile',['success'=>'Your New password is not match the confirm password']);
+        exit;
+      }
+      if(empty($nPass))
+      {
+        $nPass= $_SESSION['ClientPassword'];
+      }
+      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass);
+    //     var_dump($data);
+    //    exit;
+      $ad= New Client();
+        $data['infos']= $ad->getClInfoEdit($_SESSION['clientId'],$data);
+        //  echo '<pre>';
+        //  print_r($ad->getAdInfo($_SESSION['email']));
+        //  echo'</pre>';
+        $_SESSION['clientName']=$fullname;  
+        $_SESSION['client']= $email;  
+        $_SESSION['ClientPassword']= $nPass;  
+        
+        header('location:' . BURL . 'client/profile');
+      }else{
+        header('location:' . BURL . 'passenger/login');
+      }
+  }
 
 }
