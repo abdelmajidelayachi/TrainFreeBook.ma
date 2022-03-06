@@ -59,18 +59,60 @@
                         <div class="form-group">
                             <input class="form-control" type="text" placeholder="First name" name="fist-name" require>
                         </div>
+                        <?php if (isset($ErrorFirstName)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $ErrorFirstName;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <div class="form-group mt-3">
                             <input class="form-control" type="text" placeholder="Second name" name="last-name" require>
                         </div>
+                        <?php if (isset($ErrorLastName)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $ErrorLastName;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <div class="form-group mt-3">
                             <input class="form-control" type="email" placeholder="Email" name="email" require>
                         </div>
+                        <?php if (isset($ErrorEmail)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $ErrorEmail;?></h6>
+
+
+              </div>
+            <?php endif; ?>
+            <?php if (isset($emailExist)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $emailExist;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <div class="form-group mt-3">
                             <input class="form-control" type="password" placeholder="Enter password" name="pass" require>
                         </div>
+                        <?php if (isset($ErrorPassword)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $ErrorPassword;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <div class="form-group mt-3">
                             <input class="form-control" type="password" placeholder="Confirm password" name="confirm-pass" require>
                         </div>
+                        <?php if (isset($passNotConf)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $passNotConf;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <button name="submit" class="btn btn-sm btn-primary mt-4">Sign Up</button>
                     </form>
                 </div>

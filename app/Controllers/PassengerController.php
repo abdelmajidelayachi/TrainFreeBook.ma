@@ -325,21 +325,49 @@ class PassengerController
         $email = trim($_POST['email']);
         $password = trim($_POST['pass']);
         $confPassword = trim($_POST['confirm-pass']);
-
-        if ($password == $confPassword) {
+        if(empty(trim($_POST['fist-name'])))
+        {
+          View::load('passenger/index',["ErrorFirstName"=>"First name is required"]);
+          exit;
+        }
+        if(empty(trim($_POST['last-name'])))
+        {
+          View::load('passenger/index',["ErrorLastName"=>"Last name is required"]);
+          exit;
+        }
+        if(empty($email))
+        {
+          View::load('passenger/index',["ErrorEmail"=>"email is required"]);
+          exit;
+        }
+        if(empty($password))
+        {
+          View::load('passenger/index',["ErrorPassword"=>"password is required"]);
+          exit;
+        }
+        if ($password === $confPassword) {
+          $mail=array('email'=>$email);
+          $cl=New Client();
+         if(($cl->getClient($mail))==false)
+         {
+         
+         }else{
+          View::load('passenger/index',['emailExist'=>'This email is already used']);
+          exit;
+         }
           $data = array("fullName" => $fullName,  "email" => $email, "password" => $password);
           //   var_dump($data);
 
           $db = new Client();
           $db->insertClient($data);
-          header('location:' . BURL . 'passenger/login');
+          View::load('passenger/login',["registerSuccess"=>"password is required"]);
         } else {
-
-          header('location:' . BURL . 'passenger/index');
+          View::load('passenger/index',['passNotConf'=>'Your  password is not match the confirm password']);
+          
         }
       }
     } else {
-      header('location:' . BURL . '');
+      header('location:' . BURL . 'client/home');
     }
   }
 
@@ -400,8 +428,7 @@ class PassengerController
 
             header('location:' . BURL . 'client/home');
           } else {
-            echo '<script>alert("Invalid inputs");</script>';
-            header('location:' . BURL . 'passenger/login');
+            View::load('passenger/login',['passOrEmailError'=>'Your password or your email is Incorrect']);
           }
         }
       }

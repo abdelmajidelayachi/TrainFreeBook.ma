@@ -64,6 +64,14 @@
                 </div>
                 <div class="card-body bg-light">
                     <form method="post" action="<?php url('passenger/loginCheck'); ?>" class="mr-1">
+                   
+            <?php if (isset($passOrEmailError)) : ?>
+              <div class=" alert-danger" role="alert">
+                <h6 class="alert-heading p-1"><?= $passOrEmailError;?></h6>
+
+
+              </div>
+            <?php endif; ?>
                         <div class="form-group">
                             <input class="form-control" type="email" placeholder="Email" name="email" require>
                         </div>
