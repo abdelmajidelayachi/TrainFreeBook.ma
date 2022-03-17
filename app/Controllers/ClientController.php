@@ -27,12 +27,16 @@ class ClientController extends PassengerController
 }
    
   
+public function backHome(){
+  header('location:' . BURL . 'client/home');
+}
 
 
 
     
     public function contact()
     {
+      
         if (isset($_SESSION['client'])) {
         View::load('Client/contact');
         }else{
@@ -106,6 +110,17 @@ public function editProfile(){
       $email = trim($_POST['email']);
       $nPass = trim($_POST['n-pass']);
       $cPass = trim($_POST['c-pass']);
+      
+      $images = $_FILES['profile']['name'];
+      $tmp_dir = $_FILES['profile']['tmp_name'];
+      $imageSize = $_FILES['profile']['size'];
+      //creer un dossier nommer le uploads
+
+      $upload_dir = 'uploads/';
+      $imgExt = strtolower(pathinfo($images, PATHINFO_EXTENSION));
+      $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+      $picProfile = rand(1000, 1000000) . "." . $imgExt;
+      move_uploaded_file($tmp_dir, $upload_dir . $picProfile);
       if($nPass !=$cPass)
       {
         View::load('client/profile',['success'=>'Your New password is not match the confirm password']);
@@ -114,8 +129,22 @@ public function editProfile(){
       if(empty($nPass))
       {
         $nPass= $_SESSION['ClientPassword'];
+        // echo 'true';
+        // exit;
       }
-      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass);
+      if($imageSize==0)
+      {
+        if(isset($_SESSION['profile']))
+        {
+          $picProfile=$_SESSION['profile']; 
+
+        }else{
+        $picProfile='default.png'; 
+        //  echo 'true';
+        // exit;
+      }
+      }
+      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass,"profile"=>$picProfile);
     //     var_dump($data);
     //    exit;
       $ad= New Client();
@@ -126,6 +155,8 @@ public function editProfile(){
         $_SESSION['clientName']=$fullname;  
         $_SESSION['client']= $email;  
         $_SESSION['ClientPassword']= $nPass;  
+        $_SESSION['profile']= $picProfile;  
+        
         
         header('location:' . BURL . 'client/profile');
       }else{

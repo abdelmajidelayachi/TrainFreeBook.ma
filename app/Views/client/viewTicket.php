@@ -3,7 +3,9 @@
 </head>
 
 <body>
-
+<div>
+  <a href="<?php url('client/backHome') ?>"><button class="btn btn-danger" style="padding-left: 20px;padding-right:20px;margin:40px; padding-top:10px;"><ion-icon name="arrow-back-circle-outline"size="large"></ion-icon></button></a>
+</div>
     <?php //if($data) 
     if(isset($ticket['reservationId'] )) :
    // echo '<pre>';
@@ -113,7 +115,8 @@
 
 
 
-
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
 

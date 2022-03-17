@@ -3,7 +3,9 @@
 </head>
 
 <body>
-
+<div>
+  <a href="<?php url('passenger/goHome') ?>"><button class="btn btn-danger" style="padding-left: 20px;padding-right:20px;margin:40px; padding-top:10px;"><ion-icon name="arrow-back-circle-outline"size="large"></ion-icon></button></a>
+</div>
   <div style="overflow-x:scroll; padding-bottom:400px;">
     <?php //if($data) 
     // var_dump($tickets);
@@ -103,6 +105,9 @@
     <?php endfor;?>
   </div>
 
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 
 

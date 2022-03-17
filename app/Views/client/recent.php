@@ -58,7 +58,7 @@
   </nav>
   <br><br><br>
 
-  <main>
+  <main style=" min-height: 52vh;">
     <div class="container">
       <div class="row g-5">
         <div class="col-md-5 col-lg-4 order-md-last">
@@ -101,26 +101,74 @@
                 <div class="d-flex justify-content-between p-1">
 
                   <?php // echo (date("Y-m-d H:i:s")-date("Y-m-d H:i:s",strtotime($RBooking['bookingTime'])))
-                  ;
-                  if($RBooking['valid']==1):?>
-                  <span class="text-muted"><a href="<?php url('client/viewTicket/'.$RBooking['reservationId']);?>"><button class="btn btn-primary"> View ticket</button></a></span>
-                  <?php
-                  $bookingTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['bookingTime'])));
-                  $now = new DateTime(date("Y-m-d H:i:s"));
-                  $intvl = $bookingTime->diff($now);
 
-                  $timeLeft= $intvl->y * 365 * 24 * 60 + $intvl->m * 30 * 24 * 60 + $intvl->d * 24 * 60 + $intvl->h * 60 + $intvl->i;
-                    if($timeLeft<60):
-                  ?>
-                  <span class="text-muted"><a href="<?php url('client/cancelled/'.$RBooking['reservationId']);?>"><button class="btn btn-warning"> Cancel </button></a></span>
+                   $departureTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['departureTime'])));
+                   $arrivalTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['arrivalTime'])));
+                   $now = new DateTime(date("Y-m-d H:i:s"));
+                   $intvl = $departureTime->diff($now);
+ 
+                   $timeLeft= $intvl->y * 365 * 24 * 60 + $intvl->m * 30 * 24 * 60 + $intvl->d * 24 * 60 + $intvl->h * 60 + $intvl->i;
+                  //  echo $timeLeft;
+
+                  if($RBooking['Valid']==0):?>
+                  <span class="text-muted"><button class="btn btn-danger"> Cancelled </button></span> 
                   <?php else:?>
-                   <span class="text-muted"><button class="btn btn-success"> Confirmed </button></span>
-                   <?php endif;
-                   else:
-                    
+                    <?php
+                  if ($RBooking['status']==0) :
+                    ?>
+
+                    <span class="text-muted"><button class="btn btn-danger" style="pointer-events: none;">Trip cancelled</button></span>
+                    <?php else: ?>
+                      <span class="text-muted"><a href="<?php url('client/viewTicket/'.$RBooking['reservationId']);?>"><button class="btn btn-primary">View ticket</button></a></span>
+                      <h1><?php $timeLeft ?></h1>
+                      <?php if($timeLeft>60 && $departureTime>$now): ?>
+                        <span class="text-muted"><a href="<?php url('client/cancelled/'.$RBooking['reservationId']);?>"><button class="btn btn-warning"> Cancel </button></a></span>
+                      <?php elseif($arrivalTime > $now):
+                        
+                    ?>
+                       <span class="text-muted"><button class="btn btn-success" style="pointer-events: none;"> Confirmed</button></span>
+                      <?php else:
+                         ?>
+
+                        <span class="text-muted"><button class="btn btn-secondary" style="pointer-events: none;"> Expired </button></span>
+                        <?php  
+                        endif;
+                  ?>
+                   
+                   
+                  <?php
+                  endif;
+                ?> 
+                 
+                <?php endif;
                    ?>
-                   <span class="text-muted"><button class="btn btn-danger"> Cancelled </button></span>
-                   <?php endif;?>
+                
+                   
+                 
+                          
+                  <!-- // $bookingTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['departureTime'])));
+                  // $now = new DateTime(date("Y-m-d H:i:s"));
+                  // $intvl = $bookingTime->diff($now);
+
+                  // $timeLeft= $intvl->y * 365 * 24 * 60 + $intvl->m * 30 * 24 * 60 + $intvl->d * 24 * 60 + $intvl->h * 60 + $intvl->i;
+                  // echo $timeLeft;
+                    if($timeLeft>60):
+                  ?>
+               <span class="text-muted"><a href="<php url('client/cancelled/'.$RBooking['reservationId']);?>"><button class="btn btn-warning"> Cancel </button></a></span>
+                  <php else:
+                    if($arrivalTime<$now){
+                    ?>
+                       <span class="text-muted"><button class="btn btn-success"> Confirmed </button></span>
+                      <php }else{?>
+
+                        <span class="text-muted"><button class="btn btn-success"> Expired </button></span>
+                        <php  
+                  }?>
+                  
+                    
+                   <span class="text-muted"><button class="btn btn-danger"> Cancelled </button></span>  -->
+                  
+                  
                 </div>
               </li>
 

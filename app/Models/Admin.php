@@ -43,13 +43,14 @@ class Admin extends DB
   }
   public function getAdInfoEdit($id,$data){
 
-    $stmt=DB::Connect()->prepare('UPDATE `'.$this->table.'` SET fullName=:fullName,email=:email ,password=:password WHERE adminId='.$id);
+    $stmt=DB::Connect()->prepare('UPDATE `'.$this->table.'` SET fullName=:fullName,email=:email ,password=:password,profile=:profile  WHERE adminId='.$id);
 
     
     $stmt->bindParam(':fullName',$data['fullName']);
     $stmt->bindParam(':email',$data['email']);
     $stmt->bindParam(':password',$data['password']);
-  
+    $stmt->bindParam(':profile',$data['profile']);
+
     $stmt->execute();
 
   }

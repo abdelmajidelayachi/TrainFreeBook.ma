@@ -14,7 +14,7 @@ class Report extends DB
 
   
   public function insertReport($data){
-   $stmt=DB::Connect()->prepare('INSERT INTO '.$this->table.'(fullName,email,message) VALUES(:fullName,:email,:message)');
+   $stmt=DB::Connect()->prepare('INSERT INTO '.$this->table.' (fullName,email,message) VALUES(:fullName,:email,:message)');
     $stmt->bindParam(':fullName',$data['name']);
     $stmt->bindParam(':email',$data['email']);
     $stmt->bindParam(':message',$data['message']);

@@ -62,11 +62,11 @@
 <div class="container rounded bg-white mt-3">
   <div class="row">
     <div class="col-md-4 border-right">
-      <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="../assets/images/profile.jpg" width="90"><span class="font-weight-bold"><?= $_SESSION['clientName']; ?></span><span class="text-black-50"><?= $_SESSION['client']; ?></span><span>Morocco</span></div>
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="../uploads/<?= $_SESSION['profile']?>" width="90"><span class="font-weight-bold"><?= $_SESSION['clientName']; ?></span><span class="text-black-50"><?= $_SESSION['client']; ?></span><span>Morocco</span></div>
     </div>
     <div class="col-md-8">
       <div class="p-3 py-5">
-        <form action="<?php url('client/editProfile'); ?>" method="post">
+        <form action="<?php url('client/editProfile'); ?>" method="post" enctype="multipart/form-data">
           <div class="d-flex justify-content-center align-items-center mb-1">
 
             <h2 class="text-right p-1"> Profile</h2>
@@ -90,7 +90,7 @@
           </div>
           <div class="row mt-3  g-3">
 
-            <div class="col-md-6"><input type="file" class="form-control"></div>
+            <div class="col-md-6"> <input type="file" class="input-parts mt-3" name="profile" accept=".jpg,.jpeg,.png"></div>
           </div>
           <div class="mt-5 text-right"><button class="btn btn-primary profile-button" name="submit" type="submit">Edit Profile</button></div>
         </form>

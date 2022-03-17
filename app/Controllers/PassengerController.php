@@ -36,13 +36,12 @@ class PassengerController
     if (!isset($_SESSION['client'])) {
       $data['tickets'] = $_SESSION['guest'];
       // var_dump($data);
-      View::load('Passenger/tickets',$data);
-    }else{
+      View::load('Passenger/tickets', $data);
+    } else {
       $data['tickets'] = $_SESSION['guest'];
       // var_dump($data);
-      View::load('client/tickets',$data);
+      View::load('client/tickets', $data);
     }
-    
   }
 
 
@@ -75,7 +74,7 @@ class PassengerController
           $seat = $seat + 1;
           $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
 
-          $data= array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId);
+          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId);
           // echo '<pre>';
           // print_r($data); 
           // echo '</pre>';
@@ -83,27 +82,25 @@ class PassengerController
 
           $res = new Reservation();
 
-          
-           $booked= $res->book($data);
-          
-          if($booked){
-           
-          }else{
 
-            
-          $resId = new Reservation();
-          $IdRes= $resId->getLastId()["MAX(reservationId)"];
-          //  var_dump( $IdRes);
-          $data['reservationId']= $IdRes;
-           
-           $ticket= New Ticket();
-           $ticket->insertTicket($data);
+          $booked = $res->book($data);
+
+          if ($booked) {
+          } else {
+
+
+            $resId = new Reservation();
+            $IdRes = $resId->getLastId()["MAX(reservationId)"];
+            //  var_dump( $IdRes);
+            $data['reservationId'] = $IdRes;
+
+            $ticket = new Ticket();
+            $ticket->insertTicket($data);
           }
-          $tData[$i]=$data;
-
+          $tData[$i] = $data;
         }
-       
-         $_SESSION['guest']=$tData;
+
+        $_SESSION['guest'] = $tData;
         header('location:' . BURL . 'Passenger/tickets');
 
 
@@ -112,9 +109,9 @@ class PassengerController
 
       }
     } else {
-      
+
       if (isset($_POST['submit'])) {
-        
+
         $destinationStart = $_POST['destinationStart'];
         $destinationEnd = $_POST['destinationEnd'];
         $departureTime = $_POST['departureTime'];
@@ -139,38 +136,36 @@ class PassengerController
           $seat = $seat + 1;
           $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
 
-          $data= array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "email" => $email);
+          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "email" => $email);
           echo '<pre>';
-          print_r($data); 
+          print_r($data);
           echo '</pre>';
 
 
           $res = new Reservation();
 
-          
-           $booked= $res->book($data);
-          
-          if($booked){
-           
-          }else{
 
-            
-          $resId = new Reservation();
-          $IdRes= $resId->getLastId()["MAX(reservationId)"];
-          //  var_dump( $IdRes);
-          $data['reservationId']= $IdRes;
-           
-           $ticket= New Ticket();
-           $ticket->insertTicket($data);
+          $booked = $res->book($data);
+
+          if ($booked) {
+          } else {
+
+
+            $resId = new Reservation();
+            $IdRes = $resId->getLastId()["MAX(reservationId)"];
+            //  var_dump( $IdRes);
+            $data['reservationId'] = $IdRes;
+
+            $ticket = new Ticket();
+            $ticket->insertTicket($data);
           }
-          $tData[$i]=$data;
-
+          $tData[$i] = $data;
         }
-       
-         $_SESSION['guest']=$tData;
+
+        $_SESSION['guest'] = $tData;
         header('location:' . BURL . 'client/tickets');
+      }
     }
-  }
   }
 
 
@@ -278,7 +273,7 @@ class PassengerController
 
         header('location:' . BURL . 'client/home');
       }
-    }else{
+    } else {
       if (isset($_POST['submit'])) {
         $departure = trim($_POST['departure']);
         $arrival = trim($_POST['arrival']);
@@ -325,45 +320,39 @@ class PassengerController
         $email = trim($_POST['email']);
         $password = trim($_POST['pass']);
         $confPassword = trim($_POST['confirm-pass']);
-        if(empty(trim($_POST['fist-name'])))
-        {
-          View::load('passenger/index',["ErrorFirstName"=>"First name is required"]);
+
+        if (empty(trim($_POST['fist-name']))) {
+          View::load('passenger/index', ["ErrorFirstName" => "First name is required"]);
           exit;
         }
-        if(empty(trim($_POST['last-name'])))
-        {
-          View::load('passenger/index',["ErrorLastName"=>"Last name is required"]);
+        if (empty(trim($_POST['last-name']))) {
+          View::load('passenger/index', ["ErrorLastName" => "Last name is required"]);
           exit;
         }
-        if(empty($email))
-        {
-          View::load('passenger/index',["ErrorEmail"=>"email is required"]);
+        if (empty($email)) {
+          View::load('passenger/index', ["ErrorEmail" => "email is required"]);
           exit;
         }
-        if(empty($password))
-        {
-          View::load('passenger/index',["ErrorPassword"=>"password is required"]);
+        if (empty($password)) {
+          View::load('passenger/index', ["ErrorPassword" => "password is required"]);
           exit;
         }
         if ($password === $confPassword) {
-          $mail=array('email'=>$email);
-          $cl=New Client();
-         if(($cl->getClient($mail))==false)
-         {
-         
-         }else{
-          View::load('passenger/index',['emailExist'=>'This email is already used']);
-          exit;
-         }
+          $mail = array('email' => $email);
+          $cl = new Client();
+          if (($cl->getClient($mail)) == false) {
+          } else {
+            View::load('passenger/index', ['emailExist' => 'This email is already used']);
+            exit;
+          }
           $data = array("fullName" => $fullName,  "email" => $email, "password" => $password);
           //   var_dump($data);
 
           $db = new Client();
           $db->insertClient($data);
-          View::load('passenger/login',["registerSuccess"=>"password is required"]);
+          View::load('passenger/login', ["registerSuccess" => "password is required"]);
         } else {
-          View::load('passenger/index',['passNotConf'=>'Your  password is not match the confirm password']);
-          
+          View::load('passenger/index', ['passNotConf' => 'Your  password is not match the confirm password']);
         }
       }
     } else {
@@ -419,16 +408,17 @@ class PassengerController
         } else {
           $init = new Client();
           if ($init->loginClient($data)) {
-            $dt=$init->getClient($data);
+            $dt = $init->getClient($data);
 
-            $_SESSION['client']=$dt['email'];
-            $_SESSION['clientName']=$dt['fullName'];
-            $_SESSION['clientId']=$dt['clientId'];
-            $_SESSION['password']=$dt['password'];
+            $_SESSION['client'] = $dt['email'];
+            $_SESSION['clientName'] = $dt['fullName'];
+            $_SESSION['clientId'] = $dt['clientId'];
+            $_SESSION['password'] = $dt['password'];
+            $_SESSION['profile']= $dt['profile'];
 
             header('location:' . BURL . 'client/home');
           } else {
-            View::load('passenger/login',['passOrEmailError'=>'Your password or your email is Incorrect']);
+            View::load('passenger/login', ['passOrEmailError' => 'Your password or your email is Incorrect']);
           }
         }
       }

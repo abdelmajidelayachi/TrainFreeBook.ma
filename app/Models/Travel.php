@@ -10,6 +10,7 @@ class Travel extends DB
   }
   public function getAllTravels()
   {
+   
 
       $tmp=DB::connect()->prepare('SELECT * FROM travels');
       $tmp->execute();
@@ -20,12 +21,14 @@ class Travel extends DB
     
   public function searchTravel($dat)
   {
-    
-      $tmp=DB::connect()->prepare('SELECT * FROM `'. $this->table.'` WHERE destinationStart=:destinationStart AND destinationEnd=:destinationEnd AND DATE(departureTime) = :dates');
+    $this->runTime(); 
+      $status =1;
+      $tmp=DB::connect()->prepare('SELECT * FROM `'. $this->table.'` WHERE destinationStart=:destinationStart AND destinationEnd=:destinationEnd AND DATE(departureTime) = :dates AND status=:status');
       
       $tmp->bindParam(':destinationStart',$dat['departure']);
       $tmp->bindParam(':destinationEnd',$dat['arrival']);
       $tmp->bindParam(':dates',$dat['dates']);
+      $tmp->bindParam(':status',$status);
 
       $tmp->execute();
       return $tmp->fetchAll();
@@ -89,6 +92,12 @@ class Travel extends DB
       $tmp->execute();
       return $tmp->fetch();
 
+    }
+
+    public function runTime()
+    {
+      $tmp=DB::connect()->prepare('UPDATE '.$this->table.' SET `status`=0 WHERE CURRENT_TIMESTAMP >= departureTime');
+      $tmp->execute();
     }
 
 

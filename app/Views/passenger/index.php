@@ -18,9 +18,7 @@
           <li class="nav-item px-4 py-1 ">
             <a class="nav-link " aria-current="page" href="<?= 'home' ?>">Home</a>
           </li>
-          <li class="nav-item px-4 py-1">
-            <a class="nav-link" href="<?= 'booking' ?>">My Bookings</a>
-          </li>
+       
 
           <?php if (isset($_SESSION['client'])) : ?>
           <li class="nav-item px-4 py-1">

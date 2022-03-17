@@ -193,22 +193,47 @@ class AdminController
           header('location:' . BURL . 'admin/login');
         }
   }
+  
+
   public function editProfile(){
     if (isset($_SESSION['AdminName'])) {
       $fullname = trim($_POST['name']);
       $email = trim($_POST['email']);
       $nPass = trim($_POST['n-pass']);
       $cPass = trim($_POST['c-pass']);
+
+      $images = $_FILES['profile']['name'];
+      $tmp_dir = $_FILES['profile']['tmp_name'];
+      $imageSize = $_FILES['profile']['size'];
+      //creer un dossier nommer le uploads
+  
+      $upload_dir = 'uploads/';
+      $imgExt = strtolower(pathinfo($images, PATHINFO_EXTENSION));
+      $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+      $picProfile = rand(1000, 1000000) . "." . $imgExt;
+      move_uploaded_file($tmp_dir, $upload_dir . $picProfile);
       if($nPass !=$cPass)
       {
         View::load('Admin/profile',['success'=>'Your New password is not match the confirm password']);
         exit;
       }
+      if($imageSize==0)
+    {
+      if(isset($_SESSION['profileAd']))
+      {
+        $picProfile=$_SESSION['profileAd']; 
+
+      }else{
+      $picProfile='default.png'; 
+      //  echo 'true';
+      // exit;
+    }
+  }
       if(empty($nPass))
       {
         $nPass= $_SESSION['password'];
       }
-      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass);
+      $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass ,"profile"=>$picProfile);
       //   var_dump($data);
       //  exit;
       $ad= New Admin();
@@ -218,7 +243,8 @@ class AdminController
         //  echo'</pre>';
         $_SESSION['AdminName']=$fullname;  
         $_SESSION['email']= $email;  
-        $_SESSION['password']= $nPass;  
+        $_SESSION['password']= $nPass; 
+        $_SESSION['profileAd']=$picProfile;  
         
         header('location:' . BURL . 'admin/profile');
       }else{

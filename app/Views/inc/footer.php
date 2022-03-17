@@ -22,14 +22,6 @@ Design & Develop by Abdelmajid.elayachi.
 
 
 
-<script type="text/javascript">
-  // $("li a").click(function(){
- 
-  //   $('li a').removeClass("active");
-  //   $(this).addClass("active");
-  // });
-</script>
-
 
 
   <!-- Optional JavaScript; choose one of the two! -->
