@@ -63,7 +63,8 @@ include(VIEWS . 'inc/header.php');
 <div id="img">
 
   <div class="container ">
-
+ 
+     
     <div class="container mt-5 rounded" id="form-search">
       <div class="row">
         <div class="col-lg-6 col-xs-10 p-4" id="form">
@@ -91,6 +92,8 @@ include(VIEWS . 'inc/header.php');
 </div>
             </div>
 <br><br>
+
+
 <?php 
 
 if(isset($travels)&& !empty($travels)):
@@ -147,6 +150,25 @@ if(isset($travels)&& !empty($travels)):
 
 
 </div>
+<?php elseif (isset($errorSeat)) : ?>
+    <div class=" container ">
+      <div class="row">
+        <div class="col-lg-6 col-xs-10 p-4 mx-auto">
+          <div class=" container text-center alert alert-danger" role="alert">
+            <?php if($errorSeat>0): ?>
+            <h4 class="alert-heading p-1">Only <?=$errorSeat?> places are available</h4>
+              <?php else:?>
+                <h4 class="alert-heading p-1">No place is available</h4>
+
+              <?php endif;?>
+
+
+            <p>Search for new trip on search bar!</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
 <?php elseif(!isset($travels)):
   
   ?>

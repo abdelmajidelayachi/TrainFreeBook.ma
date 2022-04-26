@@ -64,16 +64,9 @@
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-primary font-weight-normal p-1">Number of places</span>
         <span class="badge bg-light rounded-pill">
-          <form action="<?php 
-          
-          
-          url('passenger/bookingT/'.
-       
+          <form action="<?php      
+          url('passenger/bookingT/'.      
          $travel['travelId']
-        
-        
-        
-        
         );?>" method="post">
             <input  type="number" style="background:white;" class="btn" name="ticket-number" id="ticket" value="<?=$travel["places"];?>"  min="1" max="10">
             <input type="submit" class="btn btn-success" name="submit" value="choose">
@@ -170,6 +163,7 @@
             <input type="hidden" name="travelId" value="<?= $travel[
               'travelId'
             ] ;?>">
+          
 
 
 

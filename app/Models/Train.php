@@ -19,6 +19,13 @@ class Train extends DB
       $_SESSION['trains']=count($trains);
       return $trains;
     }
+    public function getTrain($id)
+    {
+      $tmp = DB::connect()->prepare('SELECT * FROM '.$this->table.' WHERE trainId='.$id);
+      $tmp->execute();
+      $train = $tmp->fetch();
+      return $train;
+    }
 
  
   

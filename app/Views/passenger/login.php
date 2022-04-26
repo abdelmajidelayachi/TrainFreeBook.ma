@@ -63,6 +63,14 @@
                     <h3 class="text-center p-1">Login</h3>
                 </div>
                 <div class="card-body bg-light">
+                <?php if (isset($regSuccess)) : ?>
+              <div class=" alert-success mb-4" role="alert">
+                <h6 class="alert-heading p-1"><?= $regSuccess;?></h6>
+
+
+              </div>
+              <?php endif;?>
+                
                     <form method="post" action="<?php url('passenger/loginCheck'); ?>" class="mr-1">
                    
             <?php if (isset($passOrEmailError)) : ?>

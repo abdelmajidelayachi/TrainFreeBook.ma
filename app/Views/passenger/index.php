@@ -111,7 +111,7 @@
 
               </div>
             <?php endif; ?>
-                        <button name="submit" class="btn btn-sm btn-primary mt-4">Sign Up</button>
+                        <button name="submit"   class="btn btn-sm btn-primary mt-4">Sign Up</button>
                     </form>
                 </div>
                 <div class="card-footer">   

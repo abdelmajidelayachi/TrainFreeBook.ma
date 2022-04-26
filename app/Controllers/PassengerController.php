@@ -51,6 +51,8 @@ class PassengerController
     if (!isset($_SESSION['client'])) {
       if (isset($_POST['submit'])) {
 
+        
+
         $destinationStart = $_POST['destinationStart'];
         $destinationEnd = $_POST['destinationEnd'];
         $departureTime = $_POST['departureTime'];
@@ -62,23 +64,34 @@ class PassengerController
         $travelId = $_POST['travelId'];
         $places = $_POST['places'];
         $valid = 1;
+        $train= new Train();
+        
+        $train = $train->getTrain($trainId);
+        
         for ($i = 0; $i < $places; $i++) {
           $ticketSeat = new Reservation();
 
           if (count($ticketSeat->recent($travelId)) > 0) {
             // echo($this->recent($data)["MAX(seat)"]);
             $seat = $ticketSeat->recent($travelId)["MAX(seat)"];
+              if(($seat + $places) > $train['seatNumber']){
+                $error = $train['seatNumber'] - $seat;
+                
+                
+                View::load('passenger/Home', ['errorSeat'=>$error]);
+                exit;
+              }
           } else {
             $seat = 1;
           }
           $seat = $seat + 1;
           $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
 
-          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId);
+          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId,"email"=>'');
           // echo '<pre>';
           // print_r($data); 
           // echo '</pre>';
-
+          // exit;
 
           $res = new Reservation();
 
@@ -123,13 +136,24 @@ class PassengerController
         $travelId = $_POST['travelId'];
         $places = $_POST['places'];
         $valid = 1;
+        $train= new Train(); 
+        $train = $train->getTrain($trainId);
         $email = $_SESSION['client'];
+        
         for ($i = 0; $i < $places; $i++) {
           $ticketSeat = new Reservation();
-
           if (count($ticketSeat->recent($travelId)) > 0) {
             // echo($this->recent($data)["MAX(seat)"]);
             $seat = $ticketSeat->recent($travelId)["MAX(seat)"];
+              if(($seat + $places) > $train['seatNumber']){
+                $error = $train['seatNumber'] - $seat;
+                
+                
+                View::load('client/Home', ['errorSeat'=>$error]);
+                exit;
+              }
+
+         
           } else {
             $seat = 1;
           }
@@ -137,9 +161,9 @@ class PassengerController
           $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
 
           $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "email" => $email);
-          echo '<pre>';
-          print_r($data);
-          echo '</pre>';
+          // echo '<pre>';
+          // print_r($data);
+          // echo '</pre>';
 
 
           $res = new Reservation();
@@ -172,7 +196,6 @@ class PassengerController
   public function bookingT($id)
   {
     if (!isset($_SESSION['client'])) {
-
 
       if (isset($_POST['submit'])) {
         $places = trim($_POST['ticket-number']);
@@ -350,7 +373,7 @@ class PassengerController
 
           $db = new Client();
           $db->insertClient($data);
-          View::load('passenger/login', ["registerSuccess" => "password is required"]);
+          View::load('passenger/login', ["regSuccess" => "Registration completed successfully!!"]);
         } else {
           View::load('passenger/index', ['passNotConf' => 'Your  password is not match the confirm password']);
         }

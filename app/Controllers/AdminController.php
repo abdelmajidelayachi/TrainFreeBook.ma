@@ -212,11 +212,13 @@ class AdminController
       $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
       $picProfile = rand(1000, 1000000) . "." . $imgExt;
       move_uploaded_file($tmp_dir, $upload_dir . $picProfile);
-      if($nPass !=$cPass)
+      
+      if($nPass !== $cPass)
       {
         View::load('Admin/profile',['success'=>'Your New password is not match the confirm password']);
         exit;
       }
+      
       if($imageSize==0)
     {
       if(isset($_SESSION['profileAd']))
@@ -231,10 +233,15 @@ class AdminController
   }
       if(empty($nPass))
       {
-        $nPass= $_SESSION['password'];
+        $adm=New Admin();
+        $adData = $adm->getAdInfo($_SESSION['email']);
+        var_dump($adData);
+        $nPass= $adData['password'];
+        
+
       }
       $data = array("fullName" => $fullname, "email" => $email, "password" => $nPass ,"profile"=>$picProfile);
-      //   var_dump($data);
+        // var_dump($data);
       //  exit;
       $ad= New Admin();
         $data['infos']= $ad->getAdInfoEdit($_SESSION['adminId'],$data);
