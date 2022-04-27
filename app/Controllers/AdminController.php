@@ -188,6 +188,12 @@ class AdminController
       if (isset($_SESSION['AdminName'])) {
         $ad= New Admin();
         $data['infos']= $ad->getAdInfo($_SESSION['email']);
+        // print_r($data['infos']);
+        if(!isset($_SESSION['profileAd']))
+        {
+          $_SESSION['profileAd']= $data['infos']['profile'];
+        }
+        
         View::load('Admin/profile',$data);
         }else{
           header('location:' . BURL . 'admin/login');

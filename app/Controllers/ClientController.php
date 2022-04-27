@@ -128,7 +128,7 @@ public function editProfile(){
       }
       if(empty($nPass))
       {
-        $nPass= $_SESSION['ClientPassword'];
+        $nPass= $_SESSION['password'];
         // echo 'true';
         // exit;
       }
@@ -149,13 +149,13 @@ public function editProfile(){
     //    exit;
       $ad= New Client();
         $data['infos']= $ad->getClInfoEdit($_SESSION['clientId'],$data);
-         echo '<pre>';
-         print_r($data['infos']);
-         echo'</pre>';
-         exit;
+        //  echo '<pre>';
+        //  print_r($data['infos']);
+        //  echo'</pre>';
+        //  exit;
         $_SESSION['clientName']=$fullname;  
         $_SESSION['client']= $email;  
-        $_SESSION['ClientPassword']= $nPass;  
+        $_SESSION['password']= $nPass;  
         $_SESSION['profile']= $picProfile;  
         
         
