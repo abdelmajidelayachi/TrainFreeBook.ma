@@ -39,7 +39,7 @@ class Reservation extends DB
   }
   public function recent($id)
   {
-    $stmt=DB::Connect()->prepare('SELECT MAX(seat) FROM '.$this->table.' WHERE travelId=:travelId');
+    $stmt=DB::Connect()->prepare('SELECT MAX(seat) FROM '.$this->table.' WHERE travelId=:travelId && Valid=1');
     
     $stmt->bindParam(':travelId',$id);
     $stmt->execute();
@@ -57,9 +57,10 @@ class Reservation extends DB
   }
   public function recentBook($id){
     // SELECT reservations.*, travels.* FROM reservations INNER JOIN travels ON reservations.travelId = travels.travelId WHERE email='elayachiabdel2001@gmail.com';
-    $stmt=DB::Connect()->prepare('SELECT reservations.*, travels.* FROM reservations INNER JOIN travels ON reservations.travelId = travels.travelId WHERE client_id=:client_id');
-    
+    $stmt=DB::Connect()->prepare('SELECT reservations.*, travels.* FROM reservations INNER JOIN travels ON reservations.travelId = travels.travelId WHERE client_id=:client_id && deleted=:deleted');
+    $z=0;
     $stmt->bindParam(':client_id',$id);
+    $stmt->bindParam(':deleted',$z);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -72,8 +73,18 @@ class Reservation extends DB
   
     $stmt->execute();
 
+  }
+  public function deleting($id)
+  {
+    $stmt=DB::Connect()->prepare('UPDATE `'.$this->table.'` SET deleted=:deleted WHERE reservationId='.$id);
+
+    $one ='1';
+    $stmt->bindParam(':deleted',$one);
+  
+    $stmt->execute();
 
   }
+  
   public function selectTicket($id){
     // SELECT reservations.*, travels.* FROM reservations INNER JOIN travels ON reservations.travelId = travels.travelId WHERE email='elayachiabdel2001@gmail.com';
     $stmt=DB::Connect()->prepare('SELECT reservations.*, travels.* FROM reservations INNER JOIN travels ON reservations.travelId = travels.travelId WHERE reservationId=:reservationId');

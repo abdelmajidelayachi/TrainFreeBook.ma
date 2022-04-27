@@ -119,18 +119,21 @@
 
                   if($RBooking['Valid']==0):?>
                   <span class="text-muted"><button class="btn btn-danger"> Cancelled </button></span> 
+                  <span class="text-muted"><a href="<?php url('client/deleting/'.$RBooking['reservationId']);?>"> <button class="btn btn-danger"><i class="fa fa-trash fa-lg p-1"></i></button></a></span> 
                   <?php else:?>
                     <?php
                   if ($RBooking['status']==0) :
                     ?>
 
                     <span class="text-muted"><button class="btn btn-danger" style="pointer-events: none;">Trip cancelled</button></span>
+                    <span class="text-muted"><a href="<?php url('client/deleting/'.$RBooking['reservationId']);?>"> <button class="btn btn-danger"><i class="fa fa-trash fa-lg p-1"></i></button></a></span> 
                     <?php else: ?>
                       <span class="text-muted"><a href="<?php url('client/viewTicket/'.$RBooking['reservationId']);?>"><button class="btn btn-primary">View ticket</button></a></span>
                       <h1><?php $timeLeft ?></h1>
 
                       <?php if($timeLeft>60 && $departureTime>$now): ?>
                         <span class="text-muted"><a href="<?php url('client/cancelled/'.$RBooking['reservationId']);?>"><button class="btn btn-warning"> Cancel </button></a></span>
+                       
                       <?php elseif($arrivalTime > $now):
                         
                     ?>

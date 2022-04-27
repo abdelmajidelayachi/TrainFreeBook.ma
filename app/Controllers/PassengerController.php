@@ -378,35 +378,6 @@ class PassengerController
     }
   }
 
-
-
-  // public function update($id){
-  //   if(isset($_POST['submit']))
-  //   {
-  //     $name = $_POST['name'];
-  //     $price =$_POST['price'];
-  //     $description = $_POST['description'];
-  //     $qty = $_POST['qty'];
-  //     $dataDelete=array("name"=>$name,"price"=>$price,"description"=>$description,"qty"=>$qty);
-
-  //     $db = new Client();
-  //     if($db->updateClient($id,$dataDelete))
-  //     {
-  //       View::load("Client/edit",["success"=>"Data updated Successfully",'row'=>$db->getRow($id)]);
-
-  //     }else{
-  //       View::load("Client/edit",['row'=>$db->getRow($id)]);
-  //     }
-
-  //   }
-  // }
-
-  // public function getAll()
-  // {
-  //   $dt=Client::getAll();
-  //   return $dt;
-  // }
-
   public function loginCheck()
   {
     //Sanitize post data

@@ -65,6 +65,13 @@ public function backHome(){
         header('location:' . BURL . 'client/lastBooking');
     
     }
+    public function deleting($id)
+    {
+        $res =New Reservation();
+        $res->deleting($id);
+        header('location:' . BURL . 'client/lastBooking');
+    
+    }
     public function viewTicket($id){
         $ticket= New Reservation();
         $data['ticket']=$ticket->selectTicket($id);
