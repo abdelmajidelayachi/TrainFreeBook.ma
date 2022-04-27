@@ -48,7 +48,7 @@ public function backHome(){
         if (isset($_SESSION['client'])) {
             $dt= New Reservation();
             
-            $data['RBookings']=$dt->recentBook($_SESSION['client']);
+            $data['RBookings']=$dt->recentBook($_SESSION['client_id']);
            
            
 
@@ -149,9 +149,10 @@ public function editProfile(){
     //    exit;
       $ad= New Client();
         $data['infos']= $ad->getClInfoEdit($_SESSION['clientId'],$data);
-        //  echo '<pre>';
-        //  print_r($ad->getAdInfo($_SESSION['email']));
-        //  echo'</pre>';
+         echo '<pre>';
+         print_r($data['infos']);
+         echo'</pre>';
+         exit;
         $_SESSION['clientName']=$fullname;  
         $_SESSION['client']= $email;  
         $_SESSION['ClientPassword']= $nPass;  

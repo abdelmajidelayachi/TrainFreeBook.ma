@@ -98,6 +98,8 @@ class PassengerController
 
           $booked = $res->book($data);
 
+          // exit;
+
           if ($booked) {
           } else {
 
@@ -138,7 +140,9 @@ class PassengerController
         $valid = 1;
         $train= new Train(); 
         $train = $train->getTrain($trainId);
-        $email = $_SESSION['client'];
+        $client_id = $_SESSION['client_id'];
+        // echo $client_id ; 
+        // exit;
         
         for ($i = 0; $i < $places; $i++) {
           $ticketSeat = new Reservation();
@@ -160,7 +164,7 @@ class PassengerController
           $seat = $seat + 1;
           $code = 'T' . $trainId . ' V' . $travelId . ' S' . $seat;
 
-          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "email" => $email);
+          $data = array("destinationStart" => $destinationStart, "destinationEnd" => $destinationEnd, "departureTime" => $departureTime, "arrivalTime" => $arrivalTime, "price" => $price, "status" => $status, "trainId" => $trainId, "places" => $places, "valid" => $valid, "code" => $code, "seat" => $seat, "travelId" => $travelId, "client_id" => $client_id);
           // echo '<pre>';
           // print_r($data);
           // echo '</pre>';
@@ -170,6 +174,7 @@ class PassengerController
 
 
           $booked = $res->book($data);
+
 
           if ($booked) {
           } else {
@@ -203,11 +208,6 @@ class PassengerController
           $trip = new Travel();
           $data['travel'] = $trip->getTravel($id);
           $data['travel'] += ["places" => $places];
-
-
-          // var_dump($data);
-
-
           View::load('Passenger/booking', $data);
         }
       } else {
@@ -228,11 +228,6 @@ class PassengerController
           $trip = new Travel();
           $data['travel'] = $trip->getTravel($id);
           $data['travel'] += ["places" => $places];
-
-
-          // var_dump($data);
-
-
           View::load('client/booking', $data);
         }
       } else {
@@ -434,6 +429,8 @@ class PassengerController
             $dt = $init->getClient($data);
 
             $_SESSION['client'] = $dt['email'];
+            $_SESSION['client_id']=$dt['clientId'];
+     
             $_SESSION['clientName'] = $dt['fullName'];
             $_SESSION['clientId'] = $dt['clientId'];
             $_SESSION['password'] = $dt['password'];

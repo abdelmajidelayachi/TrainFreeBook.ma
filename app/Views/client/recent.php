@@ -101,14 +101,21 @@
                 <div class="d-flex justify-content-between p-1">
 
                   <?php // echo (date("Y-m-d H:i:s")-date("Y-m-d H:i:s",strtotime($RBooking['bookingTime'])))
-
+                  // date_default_timezone_set('Casablanca');
+                  date_default_timezone_set('africa/casablanca');
                    $departureTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['departureTime'])));
                    $arrivalTime  = new DateTime(date("Y-m-d H:i:s",strtotime($RBooking['arrivalTime'])));
                    $now = new DateTime(date("Y-m-d H:i:s"));
+                  // print_r($now) ;
+                  // exit;
+                   
+                 
                    $intvl = $departureTime->diff($now);
+
  
                    $timeLeft= $intvl->y * 365 * 24 * 60 + $intvl->m * 30 * 24 * 60 + $intvl->d * 24 * 60 + $intvl->h * 60 + $intvl->i;
-                  //  echo $timeLeft;
+                  //  echo date('m/d/Y H:i:s', time());
+                  //  exit;
 
                   if($RBooking['Valid']==0):?>
                   <span class="text-muted"><button class="btn btn-danger"> Cancelled </button></span> 
@@ -121,6 +128,7 @@
                     <?php else: ?>
                       <span class="text-muted"><a href="<?php url('client/viewTicket/'.$RBooking['reservationId']);?>"><button class="btn btn-primary">View ticket</button></a></span>
                       <h1><?php $timeLeft ?></h1>
+
                       <?php if($timeLeft>60 && $departureTime>$now): ?>
                         <span class="text-muted"><a href="<?php url('client/cancelled/'.$RBooking['reservationId']);?>"><button class="btn btn-warning"> Cancel </button></a></span>
                       <?php elseif($arrivalTime > $now):
